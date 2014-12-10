@@ -216,7 +216,7 @@ class AmclNode
     ros::Timer check_laser_timer_;
 
     int max_beams_, min_particles_, max_particles_;
-    double alpha1_, alpha2_, alpha3_, alpha4_, alpha5_;
+    double alpha1_, alpha2_, alpha3_, alpha4_, alpha5_, alpha6_, alpha7_;
     double alpha_slow_, alpha_fast_;
     double z_hit_, z_short_, z_max_, z_rand_, sigma_hit_, lambda_short_;
   //beam skip related params
@@ -291,6 +291,8 @@ AmclNode::AmclNode() :
   private_nh_.param("odom_alpha3", alpha3_, 0.2);
   private_nh_.param("odom_alpha4", alpha4_, 0.2);
   private_nh_.param("odom_alpha5", alpha5_, 0.2);
+  private_nh_.param("odom_alpha4", alpha6_, 0.005);
+  private_nh_.param("odom_alpha5", alpha7_, 0.01);
   
   private_nh_.param("do_beamskip", do_beamskip_, false);
   private_nh_.param("beam_skip_distance", beam_skip_distance_, 0.5);
@@ -431,6 +433,8 @@ void AmclNode::reconfigureCB(AMCLConfig &config, uint32_t level)
   alpha3_ = config.odom_alpha3;
   alpha4_ = config.odom_alpha4;
   alpha5_ = config.odom_alpha5;
+  alpha6_ = config.odom_alpha6;
+  alpha7_ = config.odom_alpha7;
 
   z_hit_ = config.laser_z_hit;
   z_short_ = config.laser_z_short;
@@ -498,7 +502,7 @@ void AmclNode::reconfigureCB(AMCLConfig &config, uint32_t level)
   delete odom_;
   odom_ = new AMCLOdom();
   ROS_ASSERT(odom_);
-  odom_->SetModel( odom_model_type_, alpha1_, alpha2_, alpha3_, alpha4_, alpha5_ );
+  odom_->SetModel( odom_model_type_, alpha1_, alpha2_, alpha3_, alpha4_, alpha5_, alpha6_, alpha7_ );
   // Laser
   delete laser_;
   laser_ = new AMCLLaser(max_beams_, map_);
@@ -674,7 +678,7 @@ AmclNode::handleMapMessage(const nav_msgs::OccupancyGrid& msg)
   delete odom_;
   odom_ = new AMCLOdom();
   ROS_ASSERT(odom_);
-  odom_->SetModel( odom_model_type_, alpha1_, alpha2_, alpha3_, alpha4_, alpha5_ );
+  odom_->SetModel( odom_model_type_, alpha1_, alpha2_, alpha3_, alpha4_, alpha5_, alpha6_, alpha7_ );
   // Laser
   delete laser_;
   laser_ = new AMCLLaser(max_beams_, map_);

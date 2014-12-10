@@ -98,7 +98,9 @@ AMCLOdom::SetModel( odom_model_t type,
                     double alpha2,
                     double alpha3,
                     double alpha4,
-                    double alpha5 )
+                    double alpha5,
+                    double alpha6,
+                    double alpha7 )
 {
     this->model_type = type;
     this->alpha1 = alpha1;
@@ -106,6 +108,8 @@ AMCLOdom::SetModel( odom_model_t type,
     this->alpha3 = alpha3;
     this->alpha4 = alpha4;
     this->alpha5 = alpha5;
+    this->alpha6 = alpha6;
+    this->alpha7 = alpha7;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -338,10 +342,10 @@ bool AMCLOdom::UpdateAction(pf_t *pf, AMCLSensorData *data)
 
             // Apply sampled update to particle pose
             sample->pose.v[0] += (delta_trans_hat * cs_bearing +
-                                  delta_strafe_hat * sn_bearing + pf_ran_gaussian(0.005));
+                                  delta_strafe_hat * sn_bearing + pf_ran_gaussian(this->alpha6));
             sample->pose.v[1] += (delta_trans_hat * sn_bearing -
-                                  delta_strafe_hat * cs_bearing + pf_ran_gaussian(0.005));
-            sample->pose.v[2] += delta_rot_hat + pf_ran_gaussian(0.01);
+                                  delta_strafe_hat * cs_bearing + pf_ran_gaussian(this->alpha6));
+            sample->pose.v[2] += delta_rot_hat + pf_ran_gaussian(this->alpha7);
         }
     }
         break;
