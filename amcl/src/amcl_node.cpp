@@ -329,6 +329,8 @@ AmclNode::AmclNode() :
     odom_model_type_ = ODOM_MODEL_DIFF_CORRECTED;
   else if(tmp_model_type == "omni-corrected")
     odom_model_type_ = ODOM_MODEL_OMNI_CORRECTED;
+  else if(tmp_model_type == "omni-yolo")
+    odom_model_type_ = ODOM_MODEL_OMNI_YOLO;
   else
   {
     ROS_WARN("Unknown odom model type \"%s\"; defaulting to diff model",
@@ -1102,6 +1104,31 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
         max_weight_hyp = hyp_count;
       }
     }
+
+    //std::cout << "Number of particles: " << pf_->sets[pf_->current_set].sample_count << std::endl;
+
+    /*
+      // Choose max_weight particle
+      double max_weight = 0.0;
+      int max_weight_hyp = 0;
+      std::vector<amcl_hyp_t> hyps;
+      hyps.resize(1);
+      pf_sample_t *particle;
+      for (int i = 0; i < pf_->sets[pf_->current_set].sample_count; ++i)
+      {
+        particle = pf_->sets[pf_->current_set].samples + i;
+
+        if (particle->weight > max_weight)
+        {
+            max_weight = particle->weight;
+
+            hyps[0].weight = particle->weight;
+            hyps[0].pf_pose_mean = particle->pose;
+            //hyps[0].pf_pose_cov = particle->pose_cov;
+        }
+      }
+    */
+
 
     if(max_weight > 0.0)
     {
