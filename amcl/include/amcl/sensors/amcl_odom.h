@@ -41,7 +41,7 @@ typedef enum
   ODOM_MODEL_OMNI,
   ODOM_MODEL_DIFF_CORRECTED,
   ODOM_MODEL_OMNI_CORRECTED,
-  ODOM_MODEL_OMNI_YOLO
+  ODOM_MODEL_OMNI_WITH_CONST_NOISE
 } odom_model_t;
 
 // Odometric sensor data

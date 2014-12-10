@@ -305,7 +305,7 @@ bool AMCLOdom::UpdateAction(pf_t *pf, AMCLSensorData *data)
         }
     }
         break;
-    case ODOM_MODEL_OMNI_YOLO:
+    case ODOM_MODEL_OMNI_WITH_CONST_NOISE:
     {
         double delta_trans, delta_rot, delta_bearing;
         double delta_trans_hat, delta_rot_hat, delta_strafe_hat;
