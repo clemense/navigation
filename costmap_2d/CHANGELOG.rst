@@ -2,6 +2,16 @@
 Changelog for package costmap_2d
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.12.0 (2015-02-04)
+-------------------
+* update maintainer email
+* Contributors: Michael Ferguson
+
+1.11.15 (2015-02-03)
+--------------------
+* Add ARCHIVE_DESTINATION for static builds
+* Contributors: Gary Servin
+
 1.11.14 (2014-12-05)
 --------------------
 * added waitForTransform to bufferCloud to solve extrapolation into the future exception

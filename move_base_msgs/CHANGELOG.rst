@@ -2,6 +2,14 @@
 Changelog for package move_base_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.12.0 (2015-02-04)
+-------------------
+* update maintainer email
+* Contributors: Michael Ferguson
+
+1.11.15 (2015-02-03)
+--------------------
+
 1.11.14 (2014-12-05)
 --------------------
 
