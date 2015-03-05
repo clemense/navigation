@@ -291,8 +291,8 @@ AmclNode::AmclNode() :
   private_nh_.param("odom_alpha3", alpha3_, 0.2);
   private_nh_.param("odom_alpha4", alpha4_, 0.2);
   private_nh_.param("odom_alpha5", alpha5_, 0.2);
-  private_nh_.param("odom_alpha4", alpha6_, 0.005);
-  private_nh_.param("odom_alpha5", alpha7_, 0.01);
+  private_nh_.param("odom_alpha6", alpha6_, 0.005);
+  private_nh_.param("odom_alpha7", alpha7_, 0.01);
   
   private_nh_.param("do_beamskip", do_beamskip_, false);
   private_nh_.param("beam_skip_distance", beam_skip_distance_, 0.5);
@@ -459,6 +459,8 @@ void AmclNode::reconfigureCB(AMCLConfig &config, uint32_t level)
     odom_model_type_ = ODOM_MODEL_DIFF_CORRECTED;
   else if(config.odom_model_type == "omni-corrected")
     odom_model_type_ = ODOM_MODEL_OMNI_CORRECTED;
+  else if (config.odom_model_type == "omni-const-noise")
+    odom_model_type_ = ODOM_MODEL_OMNI_WITH_CONST_NOISE;
 
   if(config.min_particles > config.max_particles)
   {
@@ -931,9 +933,9 @@ AmclNode::laserReceived(const sensor_msgs::LaserScanConstPtr& laser_scan)
     delta.v[2] = angle_diff(pose.v[2], pf_odom_pose_.v[2]);
 
     // See if we should update the filter
-    bool update = fabs(delta.v[0]) > d_thresh_ ||
-                  fabs(delta.v[1]) > d_thresh_ ||
-                  fabs(delta.v[2]) > a_thresh_;
+    bool update = fabs(delta.v[0]) >= d_thresh_ ||
+                  fabs(delta.v[1]) >= d_thresh_ ||
+                  fabs(delta.v[2]) >= a_thresh_;
     update = update || m_force_update;
     m_force_update=false;
 
